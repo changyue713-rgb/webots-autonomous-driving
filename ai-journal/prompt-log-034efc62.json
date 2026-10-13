@@ -1,0 +1,31 @@
+{
+  "studentId": "540756177",
+  "groupId": "1",
+  "taskId": "Assignment 1- Fixing two tracking bugs found ",
+  "tool": "Claude",
+  "isPaid": true,
+  "modelVersion": "5",
+  "language": "English (Australia) 🇦🇺",
+  "interactions": [
+    {
+      "prompt": "i ran my detector and tracker on 4 frames in a row from webots. the traffic light got id 0 in frame 0, then wasnt detected in frame 1, then came back in frame 2 but got id 1 instead of 0. also when some false detections showed up the pedestrian lost its id. why",
+      "response": "First bug was that the tracker forgot an object the instant it went undetected for a single frame, so anything that dropped out came back as a new object. Fix was a missed counter so a track survives a few frames of absence. Second bug was that the matching was greedy and went through detections in whatever order the model returned them, so two objects at similar distances could swap IDs. Fix was the Hungarian algorithm from scipy, which matches everything at once instead of one at a time. But that introduced a third problem, since Hungarian has to assign every track to something, so three false detections stole IDs from real objects. Fix was padding the cost matrix with dummy columns so leaving a detection unmatched becomes an option.",
+      "intent": "Debugging",
+      "aiAccuracy": "Minor Flaws",
+      "humanIntervention": "The first two fixes didn't work properly on their own. After the Hungarian change my pedestrian still lost its ID when false detections appeared, and I only found that by running it on real frames again and reading the output rather than trusting the unit tests. The dummy column fix came out of that. I also worked out that an earlier apparent failure was the car settling on its suspension moving the camera, not a tracking bug, so I increased the warmup steps instead of changing the code.",
+      "verificationMethod": "ran it on real Webots frames and compared the track IDs across frames",
+      "evaluationConfidence": 5
+    }
+  ],
+  "metaReflection": {
+    "utilityScore": 5,
+    "processEvolution": "Pasting the raw frame by frame output with the actual bounding box coordinates was what made this solvable. Describing the problem in words got nowhere, the numbers showed exactly what was happening.",
+    "criticalMoment": "The detector said traffic light at 0.91 confidence and I knew there wasn't one there. The AI was ready to write it off as a limitation and move on but I pushed back, and saving the frames with boxes drawn on them showed it was a traffic barrel. That led to finding out COCO only has 80 classes and barrels aren't one of them, so the model picks the nearest thing it knows.",
+    "skillDependency": "The Hungarian algorithm and building the cost matrix for it. I didn't know that algorithm existed and wouldn't have known that padding it with dummy columns was how you let detections go unmatched.",
+    "synthesis": "My 9 unit tests passed on all three versions of the tracker, including the two that were broken. The tests used clean well separated made up coordinates, real output had objects drifting 60 pixels between frames and false detections appearing. Passing tests doesn't mean the code is right, it means the code does what the tests check."
+  },
+  "tags": [],
+  "status": "complete",
+  "id": "034efc62-a84a-4293-8693-47ffdbf28b65",
+  "createdAt": "2026-09-12T06:57:45.698Z"
+}

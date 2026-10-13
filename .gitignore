@@ -1,0 +1,29 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Python package build files
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE settings
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Large datasets and trained models
+data/
+models/
+
+# Debug output from the Webots detection test controller
+frame_*.png
+
+# MkDocs generated documentation
+site/

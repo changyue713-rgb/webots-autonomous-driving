@@ -1,0 +1,19 @@
+site_name: ELEC5308 Autonomy Library
+site_description: Baseline autonomous perception and navigation library for ELEC5308
+
+theme:
+  name: readthedocs
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_root_toc_entry: false
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference: api.md

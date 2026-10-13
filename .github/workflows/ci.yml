@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # The default torch wheels bundle CUDA and run to several gigabytes,
+      # which is wasted on a CPU-only runner and slow to download. Installing
+      # the CPU build first means the editable install below finds the
+      # requirement already satisfied.
+      - name: Install PyTorch (CPU build)
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install package and development dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Lint with ruff
+        run: ruff check .
+
+      - name: Run unit tests
+        run: pytest tests/ -v
+
+      - name: Build documentation
+        run: mkdocs build --strict

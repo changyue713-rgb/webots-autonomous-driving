@@ -1,0 +1,31 @@
+{
+  "studentId": "540756177",
+  "groupId": "1",
+  "taskId": "Assignment 1- Unit test, detector improvments and first tracker",
+  "tool": "Claude",
+  "isPaid": true,
+  "modelVersion": "5",
+  "language": "English (Australia) 🇦🇺",
+  "interactions": [
+    {
+      "prompt": "my detector works now so i want to finish it off properly. can you help me write unit tests for it, and i also want it to filter out low confidence junk detections and give a proper error if someone passes the wrong type. then i need to start on tracking",
+      "response": "Added a confidence_threshold parameter defaulting to 0.5 so anything below that gets dropped, and a type check that raises a TypeError with a clear message instead of crashing somewhere inside torchvision. Added docstrings for the documentation build. Wrote 5 unit tests covering the return type, box shape, confidence range, smaller images, and the error handling. Then designed an ObjectTracker as a separate class that takes detection results and assigns IDs by matching the centre points of bounding boxes between frames, deliberately kept out of the shared types file so it wouldn't affect anyone else's code. Wrote 2 tests for it.",
+      "intent": "Implementation",
+      "aiAccuracy": "Minor Flaws",
+      "verificationMethod": "Stakeholder/Peer Consultation",
+      "evaluationConfidence": 4,
+      "humanIntervention": "The tracker file was missing its import line so the tests errored the first time I ran them, I added from ..types import ObjectDetectionResult at the top."
+    }
+  ],
+  "metaReflection": {
+    "utilityScore": 5,
+    "processEvolution": "I was more specific about what I wanted this time instead of asking open ended questions, so I got code I could use straight away rather than having to go back and forth.",
+    "criticalMoment": "I asked whether I needed to check with my team before designing the tracker and the answer was no, because it was my own module and didn't touch the shared types file. That was right and it meant I wasn't sitting around waiting for a reply. The tracker file also errored the first time I ran it because the import line was missing.",
+    "skillDependency": "Knowing what was actually worth testing. Things like checking every confidence score is between 0 and 1, or that every box has exactly 4 coordinates, I wouldn't have thought of those myself.",
+    "synthesis": "All my tests passed so I thought tracking was done. It wasn't. The tests used made up coordinates that were clean and well separated, so they didn't catch the things that went wrong once I ran it on real data."
+  },
+  "tags": [],
+  "status": "complete",
+  "id": "eeecd9d4-4850-4d4c-98c6-469f14b43a0e",
+  "createdAt": "2026-09-12T06:55:22.364Z"
+}

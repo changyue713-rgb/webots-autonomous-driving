@@ -1,0 +1,17 @@
+# Core Perception, Vision & Scientific Computing
+numpy>=1.24.0
+scipy>=1.10.0
+Pillow>=9.5.0
+opencv-python>=4.8.0
+
+# Deep Learning Frameworks & Pretrained Models
+torch>=2.0.0
+torchvision>=0.15.0
+segmentation-models-pytorch>=0.3.3
+
+# Visualization & Plotting Utilities
+matplotlib>=3.7.0
+
+# Testing & Development Tooling
+pytest>=7.4.0
+setuptools>=61.0
